@@ -1,4 +1,5 @@
 using API.Data;
+using API.Models.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddCors();
+//builder.Services.AddAutoMapper(AutoMapperProfile);
 
 var app = builder.Build();
 
@@ -27,6 +30,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(f => f.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.MapControllers();
 
