@@ -15,7 +15,7 @@ public class RecipesController : ControllerBase
 {
     private readonly ISender _sender;
 
-    protected RecipesController(ISender sender)
+    public RecipesController(ISender sender)
     {
         _sender = sender;
     }
@@ -25,8 +25,8 @@ public class RecipesController : ControllerBase
     {
         var request = new GetRecipeSummariesQuery();
 
-        _sender.Send(request);
-        return Ok();
+        var response = await _sender.Send(request);
+        return Ok(response);
     }
     
     [HttpGet("{id}")]
@@ -39,8 +39,8 @@ public class RecipesController : ControllerBase
                 RecipeId = id
             };
 
-            _sender.Send(request);
-            return Ok();
+            var response = await _sender.Send(request);
+            return Ok(response);
         }
         catch (RecipeNotFoundException e)
         {
@@ -56,7 +56,7 @@ public class RecipesController : ControllerBase
             Recipe = recipe
         };
 
-        _sender.Send(request);
+        await _sender.Send(request);
         return Ok();
     }
 
@@ -71,7 +71,7 @@ public class RecipesController : ControllerBase
                 Recipe = recipe
             };
 
-            _sender.Send(request);
+            await _sender.Send(request);
             return Ok();
         }
         catch (RecipeNotFoundException e)
@@ -90,7 +90,7 @@ public class RecipesController : ControllerBase
                 RecipeId = id
             };
 
-            _sender.Send(request);
+            await _sender.Send(request);
             return Ok();
         }
         catch (RecipeNotFoundException e)
