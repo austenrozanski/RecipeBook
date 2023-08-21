@@ -24,7 +24,7 @@ public class RecipeRepository : IRecipeRepository
         _dataContext.Recipes.Remove(recipe);
     }
 
-    public Task<Recipe?> GetByIdAsync(int id)
+    public Task<Recipe?> GetByIdAsync(long id)
     {
         return _dataContext.Recipes.FirstOrDefaultAsync(i => i.Id == id);
     }

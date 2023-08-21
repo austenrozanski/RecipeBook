@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Business.Recipes.Get;
 
-public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto>
+public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeResponse>
 {
     private readonly IRecipeRepository _recipeRepository;
 
@@ -14,7 +14,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto>
         _recipeRepository = recipeRepository;
     }
     
-    public async Task<RecipeDto> Handle(GetRecipeQuery request, CancellationToken cancellationToken)
+    public async Task<RecipeResponse> Handle(GetRecipeQuery request, CancellationToken cancellationToken)
     {
         var recipe = await _recipeRepository.GetByIdAsync(request.RecipeId);
 
@@ -23,22 +23,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto>
             throw new RecipeNotFoundException(request.RecipeId);
         }
         
-        // TODO: Use mapper
-        var response = new RecipeDto()
-        {
-            Name = recipe.Name,
-            Servings = recipe.Servings,
-            ImageUrl = recipe.ImageUrl,
-            Author = recipe.Author,
-            SourceUrl = recipe.SourceUrl,
-            PrepTimeSeconds = recipe.PrepTimeSeconds,
-            CookTimeSeconds = recipe.CookTimeSeconds,
-            DescriptionGroups = recipe.DescriptionGroups,
-            IngredientGroups = recipe.IngredientGroups,
-            InstructionGroups = recipe.InstructionGroups,
-            TipsAndTricksGroups = recipe.TipsAndTricksGroups
-        };
-
+        var response = new RecipeResponse(recipe);
         return response;
     }
 }

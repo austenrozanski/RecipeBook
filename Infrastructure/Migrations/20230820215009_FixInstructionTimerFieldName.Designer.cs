@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230820215009_FixInstructionTimerFieldName")]
+    partial class FixInstructionTimerFieldName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0-preview.6.23329.4");
@@ -170,6 +173,10 @@ namespace Infrastructure.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("INTEGER");
 
+                            b1.Property<string>("Instructions")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
                             b1.Property<string>("Name")
                                 .HasColumnType("TEXT");
 
@@ -181,63 +188,37 @@ namespace Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("RecipeId");
+                        });
 
-                            b1.OwnsMany("Domain.Entities.Recipe.RecipeInstruction", "Instructions", b2 =>
-                                {
-                                    b2.Property<long>("RecipeInstructionGroupRecipeId")
-                                        .HasColumnType("INTEGER");
+                    b.OwnsMany("Domain.Entities.Recipe.RecipeInstructionTimer", "InstructionTimers", b1 =>
+                        {
+                            b1.Property<long>("RecipeId")
+                                .HasColumnType("INTEGER");
 
-                                    b2.Property<int>("RecipeInstructionGroupId")
-                                        .HasColumnType("INTEGER");
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
 
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAddOrUpdate()
-                                        .HasColumnType("INTEGER");
+                            b1.Property<int>("GroupIndex")
+                                .HasColumnType("INTEGER");
 
-                                    b2.Property<string>("Description")
-                                        .IsRequired()
-                                        .HasColumnType("TEXT");
+                            b1.Property<int>("InstructionIndex")
+                                .HasColumnType("INTEGER");
 
-                                    b2.HasKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId", "Id");
+                            b1.Property<string>("Name")
+                                .HasColumnType("TEXT");
 
-                                    b2.ToTable("Recipes");
+                            b1.Property<int>("TotalTimeInSeconds")
+                                .HasColumnType("INTEGER");
 
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId");
+                            b1.HasKey("RecipeId", "Id");
 
-                                    b2.OwnsMany("Domain.Entities.Recipe.RecipeTimer", "Timers", b3 =>
-                                        {
-                                            b3.Property<long>("RecipeInstructionGroupRecipeId")
-                                                .HasColumnType("INTEGER");
+                            b1.ToTable("Recipes");
 
-                                            b3.Property<int>("RecipeInstructionGroupId")
-                                                .HasColumnType("INTEGER");
+                            b1.ToJson("InstructionTimers");
 
-                                            b3.Property<int>("RecipeInstructionId")
-                                                .HasColumnType("INTEGER");
-
-                                            b3.Property<int>("Id")
-                                                .ValueGeneratedOnAddOrUpdate()
-                                                .HasColumnType("INTEGER");
-
-                                            b3.Property<string>("Name")
-                                                .HasColumnType("TEXT");
-
-                                            b3.Property<int>("TotalTimeInSeconds")
-                                                .HasColumnType("INTEGER");
-
-                                            b3.HasKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId", "RecipeInstructionId", "Id");
-
-                                            b3.ToTable("Recipes");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId", "RecipeInstructionId");
-                                        });
-
-                                    b2.Navigation("Timers");
-                                });
-
-                            b1.Navigation("Instructions");
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
                         });
 
                     b.OwnsMany("Domain.Entities.Recipe.RecipeTipsAndTricksGroup", "TipsAndTricksGroups", b1 =>
@@ -270,6 +251,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("IngredientGroups");
 
                     b.Navigation("InstructionGroups");
+
+                    b.Navigation("InstructionTimers");
 
                     b.Navigation("TipsAndTricksGroups");
                 });

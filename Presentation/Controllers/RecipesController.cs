@@ -21,7 +21,7 @@ public class RecipesController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<List<RecipeSummaryDto>>> GetRecipes()
+    public async Task<ActionResult<List<RecipeSummaryResponse>>> GetRecipes()
     {
         var request = new GetRecipeSummariesQuery();
 
@@ -30,7 +30,7 @@ public class RecipesController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<RecipeDto>> GetRecipe(int id)
+    public async Task<ActionResult<RecipeResponse>> GetRecipe(int id)
     {
         try
         {
@@ -49,7 +49,7 @@ public class RecipesController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult> CreateRecipe([FromBody] RecipeDto recipe)
+    public async Task<ActionResult> CreateRecipe([FromBody] RecipeRequest recipe)
     {
         var request = new CreateRecipeCommand()
         {
@@ -61,7 +61,7 @@ public class RecipesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateRecipe(int id, [FromBody] RecipeDto recipe)
+    public async Task<ActionResult> UpdateRecipe(int id, [FromBody] RecipeRequest recipe)
     {
         try
         {

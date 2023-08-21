@@ -6,4 +6,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Entities\Activity" />
+      <Folder Include="Entities\AppUser" />
+      <Folder Include="Entities\Friend" />
+      <Folder Include="Entities\SavedRecipe" />
+    </ItemGroup>
+
 </Project>

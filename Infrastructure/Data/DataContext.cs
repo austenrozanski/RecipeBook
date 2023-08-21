@@ -21,16 +21,28 @@ public class DataContext : DbContext
 
     private static void ConfigureRecipes(EntityTypeBuilder<Recipe> config)
     {
-        config.OwnsOne(f => f.IngredientGroups,
+        config.OwnsMany(f => f.IngredientGroups, builder =>
+        {
+            builder.ToJson();
+            builder.OwnsMany(f => f.Ingredients);
+        });
+
+        config.OwnsMany(f => f.InstructionGroups,
             builder => builder.ToJson());
         
-        config.OwnsOne(f => f.InstructionGroups,
+        config.OwnsMany(f => f.InstructionGroups, builder =>
+        {
+            builder.ToJson();
+            builder.OwnsMany(f => f.Instructions, builder =>
+            {
+                builder.OwnsMany(f => f.Timers);
+            });
+        });
+
+        config.OwnsMany(f => f.TipsAndTricksGroups,
             builder => builder.ToJson());
         
-        config.OwnsOne(f => f.TipsAndTricksGroups,
-            builder => builder.ToJson());
-        
-        config.OwnsOne(f => f.DescriptionGroups,
+        config.OwnsMany(f => f.DescriptionGroups,
             builder => builder.ToJson());
     }
     

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Business.Recipes.Get;
 
-public class GetRecipeSummariesQueryHandler : IRequestHandler<GetRecipeSummariesQuery, List<RecipeSummaryDto>>
+public class GetRecipeSummariesQueryHandler : IRequestHandler<GetRecipeSummariesQuery, List<RecipeSummaryResponse>>
 {
     private readonly IRecipeRepository _recipeRepository;
 
@@ -13,8 +13,14 @@ public class GetRecipeSummariesQueryHandler : IRequestHandler<GetRecipeSummaries
         _recipeRepository = recipeRepository;
     }
     
-    public Task<List<RecipeSummaryDto>> Handle(GetRecipeSummariesQuery request, CancellationToken cancellationToken)
+    public async Task<List<RecipeSummaryResponse>> Handle(GetRecipeSummariesQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var recipes = await _recipeRepository.GetSummaries();
+
+        var response = recipes
+            .Select(recipe => new RecipeSummaryResponse(recipe))
+            .ToList();
+
+        return response;
     }
 }

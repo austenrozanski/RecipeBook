@@ -4,5 +4,5 @@ namespace Application.Business.Recipes.Delete;
 
 public class DeleteRecipeCommand : IRequest
 {
-    public int RecipeId { get; set; }
+    public long RecipeId { get; set; }
 }

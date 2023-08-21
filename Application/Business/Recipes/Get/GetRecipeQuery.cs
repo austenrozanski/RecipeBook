@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Business.Recipes.Get;
 
-public class GetRecipeQuery : IRequest<RecipeDto>
+public class GetRecipeQuery : IRequest<RecipeResponse>
 {
-    public int RecipeId { get; set; }
+    public long RecipeId { get; set; }
 }
