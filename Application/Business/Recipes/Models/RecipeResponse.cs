@@ -13,6 +13,8 @@ public class RecipeResponse
     public int PrepTimeSeconds { get; set; }
     public int CookTimeSeconds { get; set; }
     public int TotalTimeSeconds { get; set; }
+    public bool IsSaved { get; set; }
+    public bool IsHearted { get; set; }
     
     public List<RecipeDescriptionGroup> DescriptionGroups { get; set; }
     public List<RecipeIngredientGroup> IngredientGroups { get; set; }

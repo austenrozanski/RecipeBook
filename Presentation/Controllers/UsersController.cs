@@ -1,4 +1,16 @@
-using Domain.Entities;
+using Application.Business.AppUsers.Create;
+using Application.Business.AppUsers.Delete;
+using Application.Business.AppUsers.Get;
+using Application.Business.AppUsers.Models;
+using Application.Business.AppUsers.Update;
+using Application.Business.Friends.Create;
+using Application.Business.Friends.Models;
+using Application.Business.Recipes.Models;
+using Application.Business.SavedRecipes.Delete;
+using Application.Business.SavedRecipes.Get;
+using Application.Business.SavedRecipes.Update;
+using Domain.Entities.AppUser;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +20,6 @@ namespace Application.Controllers;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
-    //private DataContext _context { get; }
     private readonly ISender _sender;
 
     protected UsersController(ISender sender)
@@ -16,19 +27,128 @@ public class UsersController : ControllerBase
         _sender = sender;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserResponse>> GetUser(long id)
     {
-        //var users = await _context.Users.ToListAsync();
-        //return Ok(users);
+        try
+        {
+            var request = new GetUserQuery()
+            {
+                UserId = id
+            };
+            var response = await _sender.Send(request);
+            return Ok(response);
+        }
+        catch (UserNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult> AddUser([FromBody] UserRequest user)
+    {
+        var request = new CreateUserCommand()
+        {
+            User = user
+        };
+        await _sender.Send(request);
         return Ok();
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<ActionResult<UserResponse>> UpdateUser(long id, [FromBody] UserRequest user)
+    {
+        try
+        {
+            var request = new UpdateUserCommand()
+            {
+                UserId = id,
+                User = user
+            };
+            await _sender.Send(request);
+            return Ok();
+        }
+        catch (UserNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<UserResponse>> RemoveUser(long id)
+    {
+        try
+        {
+            var request = new DeleteUserCommand()
+            {
+                UserId = id
+            };
+            await _sender.Send(request);
+            return Ok();
+        }
+        catch (UserNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+    
+    [HttpGet("{userId}/friends")]
+    public async Task<ActionResult<IEnumerable<UserSummaryResponse>>> GetFriendsOfUser(long userId)
+    {
+        var request = new GetUsersFriendsQuery()
+        {
+            UserId = userId
+        };
+        var response = await _sender.Send(request);
+        return Ok(response);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<AppUser>> GetUser(int id)
+    #region Saved Recipes
+    [HttpGet("{userId}/saved-recipes")]
+    public async Task<ActionResult<IEnumerable<RecipeSummaryResponse>>> GetSavedRecipes(long userId)
     {
-        //var user = await _context.Users.FindAsync(id);
-        //return Ok(user);
+        var request = new GetSavedRecipesQuery()
+        {
+            UserId = userId
+        };
+
+        var response = await _sender.Send(request);
+        return Ok(response);
+    }
+
+    [HttpPost("{userId}/saved-recipe/{recipeId}")]
+    public async Task<ActionResult> SaveRecipe(long userId, long recipeId, [FromQuery] bool isHearted)
+    {
+        var request = new UpdateSavedRecipeCommand()
+        {
+            UserId = userId,
+            RecipeId = recipeId,
+            IsHearted = isHearted
+        };
+
+        await _sender.Send(request);
         return Ok();
     }
+    
+    [HttpDelete("{userId}/saved-recipe/{recipeId}")]
+    public async Task<ActionResult> UnSaveRecipe(long userId, long recipeId)
+    {
+        try
+        {
+            var request = new DeleteSavedRecipeCommand()
+            {
+                UserId = userId,
+                RecipeId = recipeId
+            };
+
+            await _sender.Send(request);
+            return Ok();
+        }
+        catch (SavedRecipeNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+    #endregion
 }

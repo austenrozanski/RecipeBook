@@ -1,5 +1,8 @@
-using Domain.Entities;
+using Domain.Entities.Activity;
+using Domain.Entities.AppUser;
+using Domain.Entities.Friend;
 using Domain.Entities.Recipe;
+using Domain.Entities.SavedRecipe;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +16,9 @@ public class DataContext : DbContext
 
     public DbSet<AppUser> Users { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<Activity> Activities { get; set; }
+    public DbSet<Friend> Friends { get; set; }
+    public DbSet<SavedRecipe> SavedRecipes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -8,10 +8,14 @@ namespace Application.Business.Recipes.Get;
 public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeResponse>
 {
     private readonly IRecipeRepository _recipeRepository;
+    private readonly ISavedRecipeRepository _savedRecipeRepository;
 
-    public GetRecipeQueryHandler(IRecipeRepository recipeRepository)
+    public GetRecipeQueryHandler(
+        IRecipeRepository recipeRepository,
+        ISavedRecipeRepository savedRecipeRepository)
     {
         _recipeRepository = recipeRepository;
+        _savedRecipeRepository = savedRecipeRepository;
     }
     
     public async Task<RecipeResponse> Handle(GetRecipeQuery request, CancellationToken cancellationToken)
@@ -24,6 +28,11 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeRespo
         }
         
         var response = new RecipeResponse(recipe);
+
+        var savedRecipe = await _savedRecipeRepository.GetSavedRecipeForUserAsync(request.UserId, request.RecipeId);
+        response.IsSaved = (savedRecipe != null);
+        response.IsHearted = savedRecipe?.IsHearted ?? false;
+        
         return response;
     }
 }

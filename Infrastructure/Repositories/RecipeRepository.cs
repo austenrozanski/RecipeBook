@@ -29,7 +29,14 @@ public class RecipeRepository : IRecipeRepository
         return _dataContext.Recipes.FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public Task<List<Recipe>> GetSummaries()
+    public Task<List<Recipe>> GetByIdsAsync(List<long> ids)
+    {
+        return _dataContext.Recipes
+            .Where(f => ids.Contains(f.Id))
+            .ToListAsync();
+    }
+
+    public Task<List<Recipe>> GetSummariesAsync()
     {
         // TODO: Only return summary data
         // TODO: Add filtering and ordering

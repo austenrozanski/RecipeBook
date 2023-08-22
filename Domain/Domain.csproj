@@ -7,10 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Entities\Activity" />
-      <Folder Include="Entities\AppUser" />
-      <Folder Include="Entities\Friend" />
-      <Folder Include="Entities\SavedRecipe" />
+      <Folder Include="Entities\Review" />
     </ItemGroup>
 
 </Project>
