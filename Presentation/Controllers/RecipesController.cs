@@ -5,10 +5,12 @@ using Application.Business.Recipes.Models;
 using Application.Business.Recipes.Update;
 using Domain.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class RecipesController : ControllerBase
@@ -19,7 +21,7 @@ public class RecipesController : ControllerBase
     {
         _sender = sender;
     }
-    
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<List<RecipeSummaryResponse>>> GetRecipes()
     {
@@ -29,6 +31,7 @@ public class RecipesController : ControllerBase
         return Ok(response);
     }
     
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<RecipeResponse>> GetRecipe(int id)
     {

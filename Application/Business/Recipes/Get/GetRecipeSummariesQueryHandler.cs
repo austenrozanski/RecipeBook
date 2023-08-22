@@ -1,5 +1,5 @@
 using Application.Business.Recipes.Models;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using MediatR;
 using MediatR.NotificationPublishers;
 

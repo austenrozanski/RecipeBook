@@ -1,7 +1,7 @@
 using Domain.Entities.AppUser;
 using Domain.Entities.Friend;
 
-namespace Domain.Repositories;
+namespace Domain.Interfaces.Repositories;
 
 public interface IFriendRepository
 {

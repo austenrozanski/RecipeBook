@@ -1,6 +1,6 @@
 using API.Data;
 using Domain.Entities.Activity;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;

@@ -1,6 +1,6 @@
 using Application.Business.AppUsers.Models;
 using Domain.Exceptions;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Application.Business.AppUsers.Get;

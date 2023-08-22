@@ -1,6 +1,6 @@
 using API.Data;
 using Domain.Entities.AppUser;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
@@ -34,5 +34,11 @@ public class AppUserRepository : IAppUserRepository
         return _dataContext.Users
             .Where(f => ids.Contains(f.Id))
             .ToListAsync();
+    }
+
+    public Task<AppUser?> GetByUserNameAsync(string userName)
+    {
+        return _dataContext.Users
+            .FirstOrDefaultAsync(f => f.UserName == userName);
     }
 }

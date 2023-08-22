@@ -1,4 +1,6 @@
-using Domain.Repositories;
+using Application.Interfaces.Services;
+using Domain.Interfaces.Repositories;
+using Infrastructure.Authentication;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +16,7 @@ public static class DependencyInjection
         services.AddTransient(typeof(IRecipeRepository), typeof(RecipeRepository));
         services.AddTransient(typeof(ISavedRecipeRepository), typeof(SavedRecipeRepository));
         services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
+        services.AddTransient(typeof(IJwtService), typeof(JwtService));
         return services;
     }
 }

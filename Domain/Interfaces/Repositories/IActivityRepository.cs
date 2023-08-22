@@ -1,6 +1,6 @@
 using Domain.Entities.Activity;
 
-namespace Domain.Repositories;
+namespace Domain.Interfaces.Repositories;
 
 public interface IActivityRepository
 {

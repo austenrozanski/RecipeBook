@@ -1,5 +1,5 @@
 using Application.Business.Friends.Models;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Application.Business.Friends.Create;

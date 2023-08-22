@@ -1,7 +1,7 @@
 using Domain.Entities.AppUser;
 using Domain.Entities.Friend;
 
-namespace Domain.Repositories;
+namespace Domain.Interfaces.Repositories;
 
 public interface IAppUserRepository
 {
@@ -9,4 +9,5 @@ public interface IAppUserRepository
     void Remove(AppUser user);
     Task<AppUser?> GetByIdAsync(long id);
     Task<List<AppUser>> GetByIdsAsync(List<long> ids);
+    Task<AppUser?> GetByUserNameAsync(string userName);
 }

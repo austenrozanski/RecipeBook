@@ -1,6 +1,6 @@
 using Domain.Entities.SavedRecipe;
 
-namespace Domain.Repositories;
+namespace Domain.Interfaces.Repositories;
 
 public interface ISavedRecipeRepository
 {

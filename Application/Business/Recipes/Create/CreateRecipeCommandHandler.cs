@@ -1,4 +1,4 @@
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using MediatR;
 using Domain.Entities.Recipe;
 

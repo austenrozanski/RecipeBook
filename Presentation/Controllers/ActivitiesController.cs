@@ -6,10 +6,12 @@ using Application.Business.Activities.Update;
 using Application.Business.Recipes.Models;
 using Domain.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ActivitiesController : ControllerBase
@@ -21,6 +23,7 @@ public class ActivitiesController : ControllerBase
         _sender = sender;
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<ActivityResponse>> GetActivity(int id)
     {

@@ -1,5 +1,5 @@
 using Domain.Entities.SavedRecipe;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Application.Business.SavedRecipes.Update;

@@ -1,28 +1,29 @@
+using Application.Authentication.Login;
+using Application.Authentication.Models;
 using Application.Business.AppUsers.Create;
 using Application.Business.AppUsers.Delete;
 using Application.Business.AppUsers.Get;
 using Application.Business.AppUsers.Models;
 using Application.Business.AppUsers.Update;
-using Application.Business.Friends.Create;
-using Application.Business.Friends.Models;
 using Application.Business.Recipes.Models;
 using Application.Business.SavedRecipes.Delete;
 using Application.Business.SavedRecipes.Get;
 using Application.Business.SavedRecipes.Update;
-using Domain.Entities.AppUser;
 using Domain.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly ISender _sender;
 
-    protected UsersController(ISender sender)
+    public UsersController(ISender sender)
     {
         _sender = sender;
     }
@@ -40,6 +41,25 @@ public class UsersController : ControllerBase
             return Ok(response);
         }
         catch (UserNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task<ActionResult<string>> Login([FromBody] LoginRequest loginRequest)
+    {
+        try
+        {
+            var request = new LoginCommand()
+            {
+                UserName = loginRequest.UserName
+            };
+            var response = await _sender.Send(request);
+            return Ok(response);
+        }
+        catch (Exception e)
         {
             return NotFound(e.Message);
         }

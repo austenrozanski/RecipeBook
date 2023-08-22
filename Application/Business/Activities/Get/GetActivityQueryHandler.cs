@@ -1,5 +1,5 @@
 using Application.Business.Activities.Models;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Application.Business.Activities.Get;

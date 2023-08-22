@@ -5,17 +5,19 @@ using Application.Business.Friends.Delete;
 using Application.Business.Friends.Models;
 using Application.Business.Friends.Update;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class FriendsController : ControllerBase
 {
     private readonly ISender _sender;
 
-    protected FriendsController(ISender sender)
+    public FriendsController(ISender sender)
     {
         _sender = sender;
     }
