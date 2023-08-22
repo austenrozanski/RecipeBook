@@ -41,4 +41,9 @@ public class AppUserRepository : IAppUserRepository
         return _dataContext.Users
             .FirstOrDefaultAsync(f => f.UserName == userName);
     }
+
+    public Task<bool> IsUserNameUniqueAsync(string userName)
+    {
+        return _dataContext.Users.AnyAsync(f => f.UserName == userName);
+    }
 }

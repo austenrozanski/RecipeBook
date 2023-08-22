@@ -1,3 +1,4 @@
+using Domain.Exceptions;
 using Domain.Interfaces.Repositories;
 using MediatR;
 
@@ -18,6 +19,11 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
 
     public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        if (!await _appUserRepository.IsUserNameUniqueAsync(request.User.UserName))
+        {
+            throw new UserNameAlreadyExistsException();
+        }
+        
         var user = request.User.ToUserEntity();
         _appUserRepository.Add(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

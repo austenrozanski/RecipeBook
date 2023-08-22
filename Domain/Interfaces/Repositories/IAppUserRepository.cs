@@ -10,4 +10,5 @@ public interface IAppUserRepository
     Task<AppUser?> GetByIdAsync(long id);
     Task<List<AppUser>> GetByIdsAsync(List<long> ids);
     Task<AppUser?> GetByUserNameAsync(string userName);
+    Task<bool> IsUserNameUniqueAsync(string userName);
 }
