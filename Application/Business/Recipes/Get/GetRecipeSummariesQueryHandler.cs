@@ -20,13 +20,13 @@ public class GetRecipeSummariesQueryHandler : IRequestHandler<GetRecipeSummaries
     
     public async Task<List<RecipeSummaryResponse>> Handle(GetRecipeSummariesQuery request, CancellationToken cancellationToken)
     {
-        var recipes = await _recipeRepository.GetSummariesAsync();
+        var recipes = await _recipeRepository.GetSummariesAsync(cancellationToken);
 
         var recipeSummaries = recipes
             .Select(recipe => new RecipeSummaryResponse(recipe))
             .ToList();
         
-        var savedRecipes = await _savedRecipeRepository.GetSavedRecipesForUserAsync(request.UserId);
+        var savedRecipes = await _savedRecipeRepository.GetSavedRecipesForUserAsync(request.UserId, cancellationToken);
         
         foreach (var recipe in recipeSummaries)
         {

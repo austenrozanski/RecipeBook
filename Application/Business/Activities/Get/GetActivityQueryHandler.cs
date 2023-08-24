@@ -19,7 +19,7 @@ public class GetActivityQueryHandler : IRequestHandler<GetActivityQuery, Activit
 
     public async Task<ActivityResponse> Handle(GetActivityQuery request, CancellationToken cancellationToken)
     {
-        var activity = await _activityRepository.GetByIdAsync(request.ActivityId);
+        var activity = await _activityRepository.GetByIdAsync(request.ActivityId, cancellationToken);
 
         var response = new ActivityResponse(activity);
         return response;

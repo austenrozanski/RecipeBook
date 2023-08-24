@@ -20,7 +20,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeRespo
     
     public async Task<RecipeResponse> Handle(GetRecipeQuery request, CancellationToken cancellationToken)
     {
-        var recipe = await _recipeRepository.GetByIdAsync(request.RecipeId);
+        var recipe = await _recipeRepository.GetByIdAsync(request.RecipeId, cancellationToken);
 
         if (recipe == null)
         {
@@ -29,7 +29,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeRespo
         
         var response = new RecipeResponse(recipe);
 
-        var savedRecipe = await _savedRecipeRepository.GetSavedRecipeForUserAsync(request.UserId, request.RecipeId);
+        var savedRecipe = await _savedRecipeRepository.GetSavedRecipeForUserAsync(request.UserId, request.RecipeId, cancellationToken);
         response.IsSaved = (savedRecipe != null);
         response.IsHearted = savedRecipe?.IsHearted ?? false;
         

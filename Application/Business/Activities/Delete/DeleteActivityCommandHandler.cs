@@ -19,7 +19,7 @@ public class DeleteActivityCommandHandler : IRequestHandler<DeleteActivityComman
 
     public async Task Handle(DeleteActivityCommand request, CancellationToken cancellationToken)
     {
-        var activity = await _activityRepository.GetByIdAsync(request.ActivityId);
+        var activity = await _activityRepository.GetByIdAsync(request.ActivityId, cancellationToken);
 
         if (activity == null)
         {

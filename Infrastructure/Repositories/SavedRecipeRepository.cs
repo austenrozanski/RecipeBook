@@ -24,16 +24,16 @@ public class SavedRecipeRepository : ISavedRecipeRepository
         _dataContext.SavedRecipes.Remove(savedRecipe);
     }
 
-    public Task<SavedRecipe?> GetByIdAsync(long id)
+    public Task<SavedRecipe?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        return _dataContext.SavedRecipes.FirstOrDefaultAsync(i => i.Id == id);
+        return _dataContext.SavedRecipes.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
     }
-    public Task<SavedRecipe?> GetSavedRecipeForUserAsync(long userId, long recipeId)
+    public Task<SavedRecipe?> GetSavedRecipeForUserAsync(long userId, long recipeId, CancellationToken cancellationToken = default)
     {
-        return _dataContext.SavedRecipes.FirstOrDefaultAsync(f => f.UserId == userId && f.RecipeId == recipeId);
+        return _dataContext.SavedRecipes.FirstOrDefaultAsync(f => f.UserId == userId && f.RecipeId == recipeId, cancellationToken);
     }
-    public Task<List<SavedRecipe>?> GetSavedRecipesForUserAsync(long userId)
+    public Task<List<SavedRecipe>?> GetSavedRecipesForUserAsync(long userId, CancellationToken cancellationToken = default)
     {
-        return _dataContext.SavedRecipes.Where(f => f.UserId == userId).ToListAsync();
+        return _dataContext.SavedRecipes.Where(f => f.UserId == userId).ToListAsync(cancellationToken);
     }
 }

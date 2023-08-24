@@ -19,7 +19,7 @@ public class UpdateFriendRequestCommandHandler : IRequestHandler<UpdateFriendReq
 
     public async Task Handle(UpdateFriendRequestCommand request, CancellationToken cancellationToken)
     {
-        var friendRequest = await _friendRepository.GetByIdAsync(request.FriendRequestId);
+        var friendRequest = await _friendRepository.GetByIdAsync(request.FriendRequestId, cancellationToken);
 
         if (friendRequest == null)
         {

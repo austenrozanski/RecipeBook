@@ -24,26 +24,26 @@ public class AppUserRepository : IAppUserRepository
         _dataContext.Users.Remove(user);
     }
 
-    public Task<AppUser?> GetByIdAsync(long id)
+    public Task<AppUser?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Users.FirstOrDefaultAsync(i => i.Id == id);
+        return _dataContext.Users.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
     }
 
-    public Task<List<AppUser>> GetByIdsAsync(List<long> ids)
+    public Task<List<AppUser>> GetByIdsAsync(List<long> ids, CancellationToken cancellationToken = default)
     {
         return _dataContext.Users
             .Where(f => ids.Contains(f.Id))
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public Task<AppUser?> GetByUserNameAsync(string userName)
+    public Task<AppUser?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         return _dataContext.Users
-            .FirstOrDefaultAsync(f => f.UserName == userName);
+            .FirstOrDefaultAsync(f => f.UserName == userName, cancellationToken);
     }
 
-    public Task<bool> IsUserNameUniqueAsync(string userName)
+    public Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Users.AnyAsync(f => f.UserName == userName);
+        return _dataContext.Users.AnyAsync(f => f.UserName == userName, cancellationToken);
     }
 }

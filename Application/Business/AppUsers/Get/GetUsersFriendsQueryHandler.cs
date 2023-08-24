@@ -19,10 +19,10 @@ public class GetUsersFriendsQueryHandler : IRequestHandler<GetUsersFriendsQuery,
 
     public async Task<IEnumerable<UserSummaryResponse>> Handle(GetUsersFriendsQuery request, CancellationToken cancellationToken)
     {
-        var friends = await _friendRepository.GetFriendsOfUserAsync(request.UserId);
+        var friends = await _friendRepository.GetFriendsOfUserAsync(request.UserId, cancellationToken);
         var friendIds = friends.Select(f => f.FriendId).ToList();
 
-        var users = await _appUserRepository.GetByIdsAsync(friendIds);
+        var users = await _appUserRepository.GetByIdsAsync(friendIds, cancellationToken);
         var userSummaries = users.Select(f => new UserSummaryResponse(f));
         return userSummaries;
     }

@@ -17,7 +17,7 @@ public class UpdateRecipeCommandHandler : IRequestHandler<UpdateRecipeCommand>
     
     public async Task Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
     {
-        var recipe = await _recipeRepository.GetByIdAsync(request.RecipeId);
+        var recipe = await _recipeRepository.GetByIdAsync(request.RecipeId, cancellationToken);
 
         if (recipe == null)
         {

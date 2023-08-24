@@ -24,18 +24,18 @@ public class FriendRepository : IFriendRepository
         _dataContext.Friends.Remove(friend);
     }
 
-    public Task<Friend?> GetByIdAsync(long id)
+    public Task<Friend?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Friends.FirstOrDefaultAsync(i => i.Id == id);
+        return _dataContext.Friends.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
     }
 
-    public Task<List<Friend>?> GetPendingFriendsOfUserAsync(long userId)
+    public Task<List<Friend>?> GetPendingFriendsOfUserAsync(long userId, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Friends.Where(f => f.UserId == userId && f.IsPending).ToListAsync();
+        return _dataContext.Friends.Where(f => f.UserId == userId && f.IsPending).ToListAsync(cancellationToken);
     }
 
-    public Task<List<Friend>?> GetFriendsOfUserAsync(long userId)
+    public Task<List<Friend>?> GetFriendsOfUserAsync(long userId, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Friends.Where(f => f.UserId == userId && !f.IsPending).ToListAsync();
+        return _dataContext.Friends.Where(f => f.UserId == userId && !f.IsPending).ToListAsync(cancellationToken);
     }
 }

@@ -20,7 +20,7 @@ public class UpdateSavedRecipeCommandHandler : IRequestHandler<UpdateSavedRecipe
     public async Task Handle(UpdateSavedRecipeCommand request, CancellationToken cancellationToken)
     {
         var savedRecipe = await _savedRecipeRepository
-            .GetSavedRecipeForUserAsync(request.UserId, request.RecipeId);
+            .GetSavedRecipeForUserAsync(request.UserId, request.RecipeId, cancellationToken);
 
         if (savedRecipe == null)
         {

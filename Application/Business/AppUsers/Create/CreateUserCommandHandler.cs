@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Business.AppUsers.Create;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, long>
 {
     private readonly IAppUserRepository _appUserRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -17,9 +17,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<long> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        if (!await _appUserRepository.IsUserNameUniqueAsync(request.User.UserName))
+        if (!await _appUserRepository.IsUserNameUniqueAsync(request.User.UserName, cancellationToken))
         {
             throw new UserNameAlreadyExistsException();
         }
@@ -27,5 +27,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
         var user = request.User.ToUserEntity();
         _appUserRepository.Add(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return user.Id;
     }
 }

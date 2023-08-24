@@ -24,13 +24,13 @@ public class ActivityRepository : IActivityRepository
         _dataContext.Activities.Remove(activity);
     }
 
-    public Task<Activity?> GetByIdAsync(long id)
+    public Task<Activity?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Activities.FirstOrDefaultAsync(i => i.Id == id);
+        return _dataContext.Activities.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
     }
 
-    public Task<List<Activity>> GetActivitiesOfUserAsync(long userId)
+    public Task<List<Activity>> GetActivitiesOfUserAsync(long userId, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Activities.Where(f => f.CreatedBy == userId).ToListAsync();
+        return _dataContext.Activities.Where(f => f.CreatedBy == userId).ToListAsync(cancellationToken);
     }
 }

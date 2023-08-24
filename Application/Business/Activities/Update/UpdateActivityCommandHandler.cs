@@ -19,7 +19,7 @@ public class UpdateActivityCommandHandler : IRequestHandler<UpdateActivityComman
 
     public async Task Handle(UpdateActivityCommand request, CancellationToken cancellationToken)
     {
-        var activity = await _activityRepository.GetByIdAsync(request.ActivityId);
+        var activity = await _activityRepository.GetByIdAsync(request.ActivityId, cancellationToken);
 
         if (activity == null)
         {

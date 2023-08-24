@@ -24,22 +24,22 @@ public class RecipeRepository : IRecipeRepository
         _dataContext.Recipes.Remove(recipe);
     }
 
-    public Task<Recipe?> GetByIdAsync(long id)
+    public Task<Recipe?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        return _dataContext.Recipes.FirstOrDefaultAsync(i => i.Id == id);
+        return _dataContext.Recipes.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
     }
 
-    public Task<List<Recipe>> GetByIdsAsync(List<long> ids)
+    public Task<List<Recipe>> GetByIdsAsync(List<long> ids, CancellationToken cancellationToken = default)
     {
         return _dataContext.Recipes
             .Where(f => ids.Contains(f.Id))
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public Task<List<Recipe>> GetSummariesAsync()
+    public Task<List<Recipe>> GetSummariesAsync(CancellationToken cancellationToken = default)
     {
         // TODO: Only return summary data
         // TODO: Add filtering and ordering
-        return _dataContext.Recipes.ToListAsync();
+        return _dataContext.Recipes.ToListAsync(cancellationToken);
     }
 }

@@ -19,10 +19,10 @@ public class GetSavedRecipesQueryHandler : IRequestHandler<GetSavedRecipesQuery,
 
     public async Task<IEnumerable<RecipeSummaryResponse>> Handle(GetSavedRecipesQuery request, CancellationToken cancellationToken)
     {
-        var savedRecipes = await _savedRecipeRepository.GetSavedRecipesForUserAsync(request.UserId);
+        var savedRecipes = await _savedRecipeRepository.GetSavedRecipesForUserAsync(request.UserId, cancellationToken);
         var savedRecipeIds = savedRecipes.Select(f => f.RecipeId).ToList();
 
-        var recipes = await _recipeRepository.GetByIdsAsync(savedRecipeIds);
+        var recipes = await _recipeRepository.GetByIdsAsync(savedRecipeIds, cancellationToken);
         var recipeSummaries = recipes.Select(f => new RecipeSummaryResponse(f));
         return recipeSummaries;
     }

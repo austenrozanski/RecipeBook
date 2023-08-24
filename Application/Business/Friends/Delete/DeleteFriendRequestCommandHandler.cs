@@ -19,7 +19,7 @@ public class DeleteFriendRequestCommandHandler : IRequestHandler<DeleteFriendReq
 
     public async Task Handle(DeleteFriendRequestCommand request, CancellationToken cancellationToken)
     {
-        var friendRequest = await _friendRepository.GetByIdAsync(request.FriendRequestId);
+        var friendRequest = await _friendRepository.GetByIdAsync(request.FriendRequestId, cancellationToken);
 
         if (friendRequest == null)
         {

@@ -7,7 +7,7 @@ public interface IFriendRepository
 {
     void Add(Friend friend);
     void Remove(Friend friend);
-    Task<Friend?> GetByIdAsync(long id);
-    Task<List<Friend>?> GetPendingFriendsOfUserAsync(long userId);
-    Task<List<Friend>?> GetFriendsOfUserAsync(long userId);
+    Task<Friend?> GetByIdAsync(long id, CancellationToken cancellationToken = default);
+    Task<List<Friend>?> GetPendingFriendsOfUserAsync(long userId, CancellationToken cancellationToken = default);
+    Task<List<Friend>?> GetFriendsOfUserAsync(long userId, CancellationToken cancellationToken = default);
 }

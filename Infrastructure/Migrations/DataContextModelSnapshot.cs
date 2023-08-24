@@ -58,7 +58,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Activities");
+                    b.ToTable("Activities", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppUser.AppUser", b =>
@@ -73,7 +73,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Friend.Friend", b =>
@@ -102,7 +102,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Friends");
+                    b.ToTable("Friends", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Recipe.Recipe", b =>
@@ -150,7 +150,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.SavedRecipe.SavedRecipe", b =>
@@ -170,12 +170,12 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SavedRecipes");
+                    b.ToTable("SavedRecipes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Recipe.Recipe", b =>
                 {
-                    b.OwnsMany("Domain.Entities.Recipe.RecipeDescriptionGroup", "DescriptionGroups", b1 =>
+                    b.OwnsMany("Domain.Entities.Recipe.Recipe.DescriptionGroups#Domain.Entities.Recipe.RecipeDescriptionGroup", "DescriptionGroups", b1 =>
                         {
                             b1.Property<long>("RecipeId")
                                 .HasColumnType("INTEGER");
@@ -192,7 +192,7 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("RecipeId", "Id");
 
-                            b1.ToTable("Recipes");
+                            b1.ToTable("Recipes", (string)null);
 
                             b1.ToJson("DescriptionGroups");
 
@@ -200,7 +200,7 @@ namespace Infrastructure.Migrations
                                 .HasForeignKey("RecipeId");
                         });
 
-                    b.OwnsMany("Domain.Entities.Recipe.RecipeIngredientGroup", "IngredientGroups", b1 =>
+                    b.OwnsMany("Domain.Entities.Recipe.Recipe.IngredientGroups#Domain.Entities.Recipe.RecipeIngredientGroup", "IngredientGroups", b1 =>
                         {
                             b1.Property<long>("RecipeId")
                                 .HasColumnType("INTEGER");
@@ -214,14 +214,14 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("RecipeId", "Id");
 
-                            b1.ToTable("Recipes");
+                            b1.ToTable("Recipes", (string)null);
 
                             b1.ToJson("IngredientGroups");
 
                             b1.WithOwner()
                                 .HasForeignKey("RecipeId");
 
-                            b1.OwnsMany("Domain.Entities.Recipe.RecipeIngredient", "Ingredients", b2 =>
+                            b1.OwnsMany("Domain.Entities.Recipe.Recipe.IngredientGroups#Domain.Entities.Recipe.RecipeIngredientGroup.Ingredients#Domain.Entities.Recipe.RecipeIngredient", "Ingredients", b2 =>
                                 {
                                     b2.Property<long>("RecipeIngredientGroupRecipeId")
                                         .HasColumnType("INTEGER");
@@ -245,7 +245,7 @@ namespace Infrastructure.Migrations
 
                                     b2.HasKey("RecipeIngredientGroupRecipeId", "RecipeIngredientGroupId", "Id");
 
-                                    b2.ToTable("Recipes");
+                                    b2.ToTable("Recipes", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("RecipeIngredientGroupRecipeId", "RecipeIngredientGroupId");
@@ -254,7 +254,7 @@ namespace Infrastructure.Migrations
                             b1.Navigation("Ingredients");
                         });
 
-                    b.OwnsMany("Domain.Entities.Recipe.RecipeInstructionGroup", "InstructionGroups", b1 =>
+                    b.OwnsMany("Domain.Entities.Recipe.Recipe.InstructionGroups#Domain.Entities.Recipe.RecipeInstructionGroup", "InstructionGroups", b1 =>
                         {
                             b1.Property<long>("RecipeId")
                                 .HasColumnType("INTEGER");
@@ -268,14 +268,14 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("RecipeId", "Id");
 
-                            b1.ToTable("Recipes");
+                            b1.ToTable("Recipes", (string)null);
 
                             b1.ToJson("InstructionGroups");
 
                             b1.WithOwner()
                                 .HasForeignKey("RecipeId");
 
-                            b1.OwnsMany("Domain.Entities.Recipe.RecipeInstruction", "Instructions", b2 =>
+                            b1.OwnsMany("Domain.Entities.Recipe.Recipe.InstructionGroups#Domain.Entities.Recipe.RecipeInstructionGroup.Instructions#Domain.Entities.Recipe.RecipeInstruction", "Instructions", b2 =>
                                 {
                                     b2.Property<long>("RecipeInstructionGroupRecipeId")
                                         .HasColumnType("INTEGER");
@@ -293,12 +293,12 @@ namespace Infrastructure.Migrations
 
                                     b2.HasKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId", "Id");
 
-                                    b2.ToTable("Recipes");
+                                    b2.ToTable("Recipes", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId");
 
-                                    b2.OwnsMany("Domain.Entities.Recipe.RecipeTimer", "Timers", b3 =>
+                                    b2.OwnsMany("Domain.Entities.Recipe.Recipe.InstructionGroups#Domain.Entities.Recipe.RecipeInstructionGroup.Instructions#Domain.Entities.Recipe.RecipeInstruction.Timers#Domain.Entities.Recipe.RecipeTimer", "Timers", b3 =>
                                         {
                                             b3.Property<long>("RecipeInstructionGroupRecipeId")
                                                 .HasColumnType("INTEGER");
@@ -321,7 +321,7 @@ namespace Infrastructure.Migrations
 
                                             b3.HasKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId", "RecipeInstructionId", "Id");
 
-                                            b3.ToTable("Recipes");
+                                            b3.ToTable("Recipes", (string)null);
 
                                             b3.WithOwner()
                                                 .HasForeignKey("RecipeInstructionGroupRecipeId", "RecipeInstructionGroupId", "RecipeInstructionId");
@@ -333,7 +333,7 @@ namespace Infrastructure.Migrations
                             b1.Navigation("Instructions");
                         });
 
-                    b.OwnsMany("Domain.Entities.Recipe.RecipeTipsAndTricksGroup", "TipsAndTricksGroups", b1 =>
+                    b.OwnsMany("Domain.Entities.Recipe.Recipe.TipsAndTricksGroups#Domain.Entities.Recipe.RecipeTipsAndTricksGroup", "TipsAndTricksGroups", b1 =>
                         {
                             b1.Property<long>("RecipeId")
                                 .HasColumnType("INTEGER");
@@ -350,7 +350,7 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("RecipeId", "Id");
 
-                            b1.ToTable("Recipes");
+                            b1.ToTable("Recipes", (string)null);
 
                             b1.ToJson("TipsAndTricksGroups");
 

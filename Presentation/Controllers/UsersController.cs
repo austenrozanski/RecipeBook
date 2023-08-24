@@ -66,14 +66,14 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult> AddUser([FromBody] UserRequest user)
+    public async Task<ActionResult<long>> AddUser([FromBody] UserRequest user)
     {
         var request = new CreateUserCommand()
         {
             User = user
         };
-        await _sender.Send(request);
-        return Ok();
+        var result = await _sender.Send(request);
+        return Ok(result);
     }
     
     [HttpPut("{id}")]

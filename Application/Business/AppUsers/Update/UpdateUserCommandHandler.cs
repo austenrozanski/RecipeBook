@@ -19,7 +19,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
 
     public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _appUserRepository.GetByIdAsync(request.UserId);
+        var user = await _appUserRepository.GetByIdAsync(request.UserId, cancellationToken);
 
         if (user == null)
         {
